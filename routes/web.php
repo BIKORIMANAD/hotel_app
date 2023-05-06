@@ -22,6 +22,7 @@ use App\Http\Controllers\TrainersController;
 use App\Http\Controllers\TrainingTypeController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\PersonalInformationController;
+use App\Http\Controllers\RoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +128,21 @@ Route::controller(UserManagementController::class)->group(function () {
     Route::get('get-users-data', 'getUsersData')->name('get-users-data'); /** get all data users */
     
 });
+
+
+// ----------------------------- Start manage Rooms -------d-----------------------//
+Route::controller(RoomController::class)->group(function () {
+
+    Route::get('roomManagement', 'index')->middleware('auth')->name('roomManagement');
+    Route::post('room/add/save', 'addNewRoomSave')->name('room/add/save');
+    Route::post('update', 'update')->name('update');
+    Route::post('room/delete', 'delete')->middleware('auth')->name('room/delete');
+    Route::get('get-rooms-data', 'getRoomsData')->name('get-rooms-data'); /** get all data room */
+    
+});
+
+// ----------------------------- end manage Rooms-------d-----------------------//
+
 
 // --------------------------------- job ---------------------------------//
 Route::controller(JobController::class)->group(function () {
