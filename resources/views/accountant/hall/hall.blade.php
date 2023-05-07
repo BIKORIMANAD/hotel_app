@@ -9,14 +9,14 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Room Management</h3>
+                        <h3 class="page-title">Hall Management</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Room</li>
+                            <li class="breadcrumb-item active">Hall</li>
                         </ul>
                     </div>
                     <div class="col-auto float-right ml-auto">
-                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_room"><i class="fa fa-plus"></i> Add Room</a>
+                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_hall"><i class="fa fa-plus"></i> Add Hall</a>
                     </div>
                 </div>
             </div>
@@ -29,16 +29,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-striped custom-table" id="roomDataList" style="width: 100%">
+                        <table class="table table-striped custom-table" id="hallDataList" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Room type</th>
-                                    <th>Room Area</th>
-                                    <th>Room Price</th>
-                                    <th>Room Bed</th>
-                                    <th>Room Number</th>
-                                    {{-- <th>image</th> --}}
+                                    <th>Hall name</th>
+                                    <th>Number of people</th>
+                                    <th>Hall Price</th>
                                     <th>Status</th>
                                     <th>Location</th>
                                     <th>Action</th>
@@ -52,68 +49,44 @@
         <!-- /Page Content -->
 
         <!-- Add User Modal -->
-        <div id="add_room" class="modal custom-modal fade" role="dialog">
+        <div id="add_hall" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add New Room</h5>
+                        <h5 class="modal-title">Add New Hall</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('room/add/save') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('hall/add/save') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row"> 
                                     <div class="col-sm-6"> 
                                         <div class="form-group">
-                                        <label>Room Type</label>
-                                            <select class="select form-control" id="" name="roomtype">
-                                                <option value="public">public</option>
-                                                <option value="vip">vip</option>
-                                                <option value="vvip">vvip</option>
-                                            </select>
+                                        <label>Hall Name</label>
+                                           <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name" id="" value="{{ old('name') }}" placeholder="enter hall name">
                                         </div>
                                     </div>
                                     
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
-                                    <label>Room Area</label>
-                                    <select class="select form-control" id="" name="roomarea">
-                                        <option value="single">single</option>
-                                        <option value="double">double</option>
-                                       
-                                    </select>
+                                    <label>Number of People</label>
+                                    <input type="text" class="form-control  @error('numberp') is-invalid @enderror" name="numberp" id="" value="{{ old('numberp') }}" placeholder="enter number of people">
                                 </div>
                             </div>
-                            </div>
-
-                            <div class="row"> 
-                                <div class="col-sm-6"> 
-                                    <div class="form-group">
-                                    <label>Room Price</label>
-                                    <input class="form-control  @error('roomprice') is-invalid @enderror" type="text" id="" name="roomprice" value="{{ old('roomprice') }}" placeholder="Enter price">
-                                </div>
-                                </div>
-
-                                <div class="col-sm-6"> 
-                                    <div class="form-group">
-                                    <label>Room Bed</label>
-                                    <input class="form-control  @error('roombed') is-invalid @enderror" type="number" id="" name="roombed" value="{{ old('roombed') }}" placeholder="Enter number of bed">
-                                </div>
-                            </div>
-                            </div>
+                        </div>
             
                             <div class="row"> 
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
-                                        <label>Room Number</label>
-                                        <input class="form-control  @error('roomno') is-invalid @enderror" type="text" id="" name="roomno" value="{{ old('roomno') }}" placeholder="Enter room number">
-                                    </div>
+                                    <label>Hall Price</label>
+                                    <input class="form-control  @error('hallprice') is-invalid @enderror" type="text" id="" name="hallprice" value="{{ old('roomprice') }}" placeholder="Enter hall price">
+                                </div>
                                 </div>
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
-                                    <label>Location</label>
+                                    <label>Hall Location</label>
                                     <select class="select form-control" name="location" id="location">
                                         <option selected disabled> --Select --</option>
                                         @foreach ($location as $locations )
@@ -129,13 +102,13 @@
                                     <label>Status</label>
                                     <select class="select" name="status" id="status">
                                         <option selected disabled> --Select --</option>
-                                        @foreach ($status_room as $status )
+                                        @foreach ($status_hall as $status )
                                         <option value="{{ $status->type_name }}">{{ $status->type_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-sm-6"> 
-                                    <label>Room Image</label>
+                                    <label>Hall Image</label>
                                     <input class="form-control" type="file" id="image" name="image">
                                 </div>
                             </div>
@@ -151,11 +124,11 @@
         <!-- /Add User Modal -->
 				
         <!-- Edit User Modal -->
-        <div id="edit_room" class="modal custom-modal fade" role="dialog">
+        <div id="edit_hall" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Room</h5>
+                        <h5 class="modal-title">Edit Hall</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -167,48 +140,27 @@
                             <input type="hidden" name="id" id="id" value="">
                             <div class="row"> 
                                 <div class="col-sm-6"> 
-                                    <label>Room Type</label>
-                        <select class="select form-control" id="roomtype" name="roomtype">
-                      
-                                            <option value="public">public</option>
-                                            <option value="vip">vip</option>
-                                            <option value="vvip">vvip</option>
-                                        </select>
+                                    <label>Hall Name</label>
+                            <input class="form-control" type="text" id="name" name="name" >
                                     </div>
+
                                 <div class="col-sm-6"> 
-                                    <label>Room Area</label>
-                                    <select class="select form-control" id="roomarea" name="roomarea">
-                                        <option value="single">single</option>
-                                        <option value="double">double</option>
-                                       
-                                    </select>
+                                    <label>Number of People</label>
+                            <input class="form-control" type="text" id="numberp" name="numberp" >
                                 </div>
                             </div>
-                            <div class="row"> 
-                                <div class="col-sm-6">
-                                    <div class="form-group"> 
-                                    <label>Room Price</label>
-                                    <input class="form-control" type="text" id="roomprice" name="roomprice" >
-                                </div>
-                                </div>
-                                <div class="col-sm-6"> 
-                                    <div class="form-group">
-                                    <label>Room Bed</label>
-                                    <input class="form-control" type="number" id="roombed" name="roombed" >
-                                </div>
-                                </div>
-                            </div>
+                            
                             <br>
                             <div class="row"> 
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
-                                        <label>Room Number</label>
-                                        <input class="form-control" type="text" id="roomno" name="roomno" >
+                                        <label>Hall Price</label>
+                                    <input class="form-control" type="text" id="hallprice" name="hallprice" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
-                                    <label>Location</label>
+                                    <label>Hall Location</label>
                                     <select class="select form-control" name="location" id="location">
                                         <option selected disabled> --Select --</option>
                                         @foreach ($location as $locations )
@@ -222,17 +174,17 @@
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
                                     <label>Status</label>
-                                    <select class="select form-control" name="status" id="r_status">
-                                        @foreach ($status_room as $status )
+                                    <select class="select form-control" name="status" id="h_status">
+                                        @foreach ($status_hall as $status )
                                         <option value="{{ $status->type_name }}">{{ $status->type_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 </div>
                                 <div class="col-sm-6"> 
-                                    <label>Room Image</label>
+                                    <label>Hall Image</label>
                                     <input class="form-control" type="file" id="image" name="images">
-                                    <input type="hidden" name="hidden_image" id="r_image" value="">
+                                    <input type="hidden" name="hidden_image" id="h_image" value="">
                                 </div>
                             </div>
                             <br>
@@ -247,16 +199,16 @@
         <!-- /Edit Salary Modal -->
 				
         <!-- Delete User Modal -->
-        <div class="modal custom-modal fade" id="delete_room" role="dialog">
+        <div class="modal custom-modal fade" id="delete_hall" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="form-header">
-                            <h3>Delete Room</h3>
+                            <h3>Delete Hall</h3>
                             <p>Are you sure want to delete?</p>
                         </div>
                         <div class="modal-btn delete-action">
-                            <form action="{{ route('room/delete') }}" method="POST">
+                            <form action="{{ route('hall/delete') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" class="id" value="">
                                 <input type="hidden" name="avatar" id="avatar" value="">
@@ -282,7 +234,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             
-            $('#roomDataList').DataTable({
+            $('#hallDataList').DataTable({
                 
                 lengthMenu: [
                     [10, 25, 50, 100,150],
@@ -299,33 +251,24 @@
                 serverSide: true,
                 ordering: true,
                 searching: true,
-                ajax: "{{ route('get-rooms-data') }}",
+                ajax: "{{ route('get-halls-data') }}",
                 
                 columns: [{
                         data: 'no',
                         name: 'no',
                     },
                     {
-                        data: 'roomtype',
-                        name: 'roomtype'
+                        data: 'name',
+                        name: 'name'
                     },
                     {
-                        data: 'roomarea',
-                        name: 'roomarea'
+                        data: 'numberp',
+                        name: 'numberp'
                     },
                     {
-                        data: 'roomprice',
-                        name: 'roomprice'
+                        data: 'hallprice',
+                        name: 'hallprice'
                     },
-                    {
-                        data: 'roombed',
-                        name: 'roombed'
-                    },
-                    {
-                        data: 'roomno',
-                        name: 'roomno'
-                    },
-                  
                     {
                         data: 'status',
                         name: 'status'
@@ -346,24 +289,22 @@
 
     {{-- update js --}}
     <script>
-        $(document).on('click','.roomUpdate',function()
+        $(document).on('click','.hallUpdate',function()
         {
             var _this = $(this).parents('tr');
             $('#id').val(_this.find('.id').text());
-            $('#roomtype').val(_this.find('.roomtype').text()).change();
-            $('#roomarea').val(_this.find('.roomarea').text()).change();
-            $('#roomprice').val(_this.find('.roomprice').text());
-            $('#roombed').val(_this.find('.roombed').text());
-            $('#roomno').val(_this.find('.roomno')).text();
+            $('#name').val(_this.find('.name').text());
+            $('#numberp').val(_this.find('.numberp').text());
+            $('#hallprice').val(_this.find('.hallprice').text());
             $('#image').val(_this.find('.avatar').data('avatar'));
-            $('#r_status').val(_this.find('.status_s').text()).change();
+            $('#h_status').val(_this.find('.status_s').text()).change();
             $('#location').val(_this.find('.location').text()).change();
         });
     </script>
 
     {{-- delete js --}}
     <script>
-        $(document).on('click','.roomDelete',function()
+        $(document).on('click','.hallDelete',function()
         {
             var _this = $(this).parents('tr');
             $('.id').val(_this.find('.id').data('id'));

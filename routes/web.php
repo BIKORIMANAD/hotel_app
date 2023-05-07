@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\PhotosController;
+use App\Http\Controllers\HallController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -23,7 +23,7 @@ use App\Http\Controllers\TrainingTypeController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\PersonalInformationController;
 use App\Http\Controllers\RoomController;
-
+use App\Http\Controllers\LocationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -130,7 +130,7 @@ Route::controller(UserManagementController::class)->group(function () {
 });
 
 
-// ----------------------------- Start manage Rooms -------d-----------------------//
+// ----------------------------- Start manage Rooms ------------------------------//
 Route::controller(RoomController::class)->group(function () {
 
     Route::get('roomManagement', 'index')->middleware('auth')->name('roomManagement');
@@ -141,8 +141,29 @@ Route::controller(RoomController::class)->group(function () {
     
 });
 
-// ----------------------------- end manage Rooms-------d-----------------------//
+// ----------------------------- end manage Rooms------------------------------//
 
+
+//====================  location management======================================================//
+Route::controller(LocationController::class)->group(function () {
+Route::get('location/page', 'index')->middleware('auth')->name('location/page');    
+Route::post('location/save', 'saveRecordLocation')->middleware('auth')->name('location/save');    
+Route::post('location/update', 'updateRecordLocation')->middleware('auth')->name('location/update');    
+Route::post('location/delete', 'deleteRecordLocation')->middleware('auth')->name('location/delete');
+});
+//====================  location management======================================================//
+
+// ----------------------------- Start manage halls ------------------------------//
+Route::controller(HallController::class)->group(function () {
+
+    Route::get('hallManagement', 'index')->middleware('auth')->name('hallManagement');
+    Route::post('hall/add/save', 'addNewHallSave')->name('hall/add/save');
+    Route::post('update', 'update')->name('update');
+    Route::post('hall/delete', 'delete')->middleware('auth')->name('hall/delete');
+    Route::get('get-halls-data', 'getHallData')->name('get-halls-data'); /** get all data room */
+    
+});
+// ----------------------------- end manage halls------------------------------//
 
 // --------------------------------- job ---------------------------------//
 Route::controller(JobController::class)->group(function () {

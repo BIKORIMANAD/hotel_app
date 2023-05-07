@@ -33,14 +33,14 @@
 
                 @if (Auth::user()->role_name=='Accountant')
                 <li class="menu-title"> <span>Apartments</span> </li>
-                <li class="{{set_active(['roomManagement'])}} submenu">
-                    <a href="#" class="{{ set_active(['roomManagement']) ? 'noti-dot' : '' }}">
+                <li class="{{set_active(['roomManagement','location/page','hallManagement'])}} submenu">
+                    <a href="#" class="{{ set_active(['roomManagement','location/page','hallManagement']) ? 'noti-dot' : '' }}">
                         <i class="la la-user-secret"></i> <span> Apartment Controller</span> <span class="menu-arrow"></span>
                     </a>
                     <ul style="{{ request()->is('/*') ? 'display: block;' : 'display: none;' }}">
-                        <li><a class="{{set_active(['roomManagement'])}}" href="{{ route('roomManagement') }}">About Room</a></li>
-                        {{-- <li><a class="{{set_active(['activity/log'])}}" href="{{ route('activity/log') }}">Activity Log</a></li>
-                        <li><a class="{{set_active(['activity/login/logout'])}}" href="{{ route('activity/login/logout') }}">Activity User</a></li> --}}
+                        <li><a class="{{set_active(['roomManagement'])}}" href="{{ route('roomManagement') }}">Manage Room</a></li>
+                        <li><a class="{{set_active(['location/page'])}}" href="{{ route('location/page') }}">Manage Location</a></li>
+                        <li><a class="{{set_active(['hallManagement'])}}" href="{{ route('hallManagement') }}">Manage Hall</a></li>  
                     </ul>
                 </li>
             @endif
