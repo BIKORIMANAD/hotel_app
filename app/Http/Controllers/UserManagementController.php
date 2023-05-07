@@ -98,7 +98,11 @@ class UserManagementController extends Controller
                 $role_name = '<span class="badge bg-inverse-success role_name">'.$record->role_name.'</span>'; 
             } elseif ($record->role_name == 'Employee') {
                 $role_name = '<span class="badge bg-inverse-dark role_name">'.$record->role_name.'</span>'; 
-            } else {
+            }
+            elseif($record->role_name == 'Accountant'){
+                $role_name = '<span class="badge bg-inverse-secondary role_name">'.$record->role_name.'</span>';
+            }
+             else {
                 $role_name = 'NULL'; /** null role name */
             }
 
