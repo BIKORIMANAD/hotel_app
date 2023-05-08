@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use DB;
-use Carbon\Carbon;
 use PDF;
+use Carbon\Carbon;
+use App\Models\Hall;
+use App\Models\Location;
+use App\Models\Room;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 class HomeController extends Controller
 {
     /**
@@ -27,7 +31,11 @@ class HomeController extends Controller
     // main dashboard
     public function index()
     {
-        return view('dashboard.dashboard');
+      $totalroom= Room::count();
+      $totalhall= Hall::count();
+      $totallocation= Location::count();
+
+        return view('dashboard.dashboard', compact('totalroom','totalhall','totallocation'));
     }
     // employee dashboard
     public function emDashboard()

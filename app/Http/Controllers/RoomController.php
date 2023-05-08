@@ -281,4 +281,5 @@ class RoomController extends Controller
             return redirect()->back();
         }
     }
+
 }
