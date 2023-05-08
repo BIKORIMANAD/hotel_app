@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
 use App\Models\Room;
 use Brian2694\Toastr\Facades\Toastr;
 
@@ -44,15 +43,13 @@ class RoomController extends Controller
         $totalRecords = $rooms->count();
 
         $totalRecordsWithFilter = $rooms->where(function ($query) use ($searchValue) {
-          //  $query->orWhere('name', 'like', '%' . $searchValue . '%');
+          
             $query->where('roomtype', 'like', '%' . $searchValue . '%');
             $query->orWhere('roomarea', 'like', '%' . $searchValue . '%');
             $query->orWhere('roomprice', 'like', '%' . $searchValue . '%');
             $query->orWhere('roombed', 'like', '%' . $searchValue . '%');
             $query->orWhere('roomno', 'like', '%' . $searchValue . '%');
-           // $query->orWhere('image', 'like', '%' . $searchValue . '%');
             $query->orWhere('status', 'like', '%' . $searchValue . '%');
-            // $query->orWhere('status', 'like', '%' . $searchValue . '%');
             $query->orWhere('location', 'like', '%' . $searchValue . '%');
         })->count();
 
@@ -75,7 +72,7 @@ class RoomController extends Controller
         $data_arr = [];
         foreach ($records as $key => $record) {
            
-            $record->roomtype = '<h2 class="table-avatar"><a href="'.url('#' . $record->id).'" class="roomtype">'.'<img class="avatar" data-avatar='.$record->avatar.' src="'.url('/assets/images/'.$record->avatar).'">' .$record->roomtype.'</a></h2>';
+            $record->roomtype = '<h2 class="table-avatar"><a href="'.url('#' . $record->id).'" class="id">'.'<img class="avatar" data-avatar='.$record->avatar.' src="'.url('/assets/images/'.$record->avatar).'">' .$record->roomtype.'</a></h2>';
 
             /** status */
             $full_status = '
@@ -127,7 +124,6 @@ class RoomController extends Controller
                 "roomprice"        => '<span class="roomprice">'.$record->roomprice.'</span>',
                 "roombed"     => '<span class="roombed">'.$record->roombed.'</span>',
                 "roomno" => '<span class="roomno">'.$record->roomno.'</span>',
-                "avatar"         =>' <img class="avatar" data-avatar='.$record->avatar.' src="'.url('/assets/images/'.$record->avatar).'">',
                 "status"       => $status,
                 "location"   => '<span class="location">'.$record->location.'</span>',
                 "action"      => 
@@ -193,7 +189,7 @@ class RoomController extends Controller
 
             DB::commit();
             Toastr::success('New Room registered successfully :)','Success');
-            return redirect()->route('accountant.rooms.roomlist');
+            return redirect()->route('roomManagement');
         }catch(\Exception $e){
             DB::rollback();
             Toastr::error('Register new room fail :)','Error');
@@ -202,10 +198,11 @@ class RoomController extends Controller
     }
     
     /** update record */
-    public function update(Request $request)
+    public function UpdateRoom(Request $request)
     {
         DB::beginTransaction();
         try{
+            $id              =$request->id;
             $roomtype        = $request->roomtype;
             $roomarea        = $request->roomarea;
             $roomprice     = $request->roomprice;
@@ -215,7 +212,6 @@ class RoomController extends Controller
             $status    = $request->status;
             $location  = $request->location;
 
-           
             $image_name = $request->hidden_image;
             $image = $request->file('images');
             if($image_name =='photo_defaults.jpg') {
@@ -234,7 +230,7 @@ class RoomController extends Controller
             }
             
             $update = [
-
+                 'id'         =>$id,
                 'roomtype'       => $roomtype,
                 'roomarea'         => $roomarea,
                 'roomprice'    => $roomprice,
@@ -248,12 +244,12 @@ class RoomController extends Controller
            
             Room::where('id',$request->id)->update($update);
             DB::commit();
-            Toastr::success('Room updated successfully :)','Success');
-            return redirect()->route('accountant.rooms.roomlist');
+            Toastr::success('Update Record successfully :)','Success');
+            return redirect()->route('roomManagement');
 
         } catch(\Exception $e){
             DB::rollback();
-            Toastr::error('Room update fail :)','Error');
+            Toastr::error('Update record fail :)','Error');
             return redirect()->back();
         }
     } 
@@ -266,20 +262,6 @@ class RoomController extends Controller
         DB::beginTransaction();
         try {
 
-            //$dt        = Carbon::now();
-           // $todayDate = $dt->toDayDateTimeString();
-
-            // $activityLog = [
-            //     'user_name'    => Session::get('name'),
-            //     'email'        => Session::get('email'),
-            //     'phone_number' => Session::get('phone_number'),
-            //     'status'       => Session::get('status'),
-            //     'role_name'    => Session::get('role_name'),
-            //     'modify_user'  => 'Delete',
-            //     'date_time'    => $todayDate,
-            // ];
-
-            // DB::table('user_activity_logs')->insert($activityLog);
 
             if ($request->avatar == 'photo_defaults.jpg') { /** remove all information user */
                 Room::destroy($request->id);

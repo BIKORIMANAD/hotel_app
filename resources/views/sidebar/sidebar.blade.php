@@ -35,7 +35,7 @@
                 <li class="menu-title"> <span>Apartments</span> </li>
                 <li class="{{set_active(['roomManagement','location/page','hallManagement'])}} submenu">
                     <a href="#" class="{{ set_active(['roomManagement','location/page','hallManagement']) ? 'noti-dot' : '' }}">
-                        <i class="la la-user-secret"></i> <span> Apartment Controller</span> <span class="menu-arrow"></span>
+                        <i class="la la-list"></i> <span> Apartment Controller</span> <span class="menu-arrow"></span>
                     </a>
                     <ul style="{{ request()->is('/*') ? 'display: block;' : 'display: none;' }}">
                         <li><a class="{{set_active(['roomManagement'])}}" href="{{ route('roomManagement') }}">Manage Room</a></li>

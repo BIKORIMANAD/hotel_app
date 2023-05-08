@@ -38,7 +38,6 @@
                                     <th>Room Price</th>
                                     <th>Room Bed</th>
                                     <th>Room Number</th>
-                                    {{-- <th>image</th> --}}
                                     <th>Status</th>
                                     <th>Location</th>
                                     <th>Action</th>
@@ -51,7 +50,7 @@
         </div>
         <!-- /Page Content -->
 
-        <!-- Add User Modal -->
+        <!-- Add Room Modal -->
         <div id="add_room" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
@@ -148,9 +147,9 @@
                 </div>
             </div>
         </div>
-        <!-- /Add User Modal -->
+        <!-- /Add Room Modal -->
 				
-        <!-- Edit User Modal -->
+        <!-- Edit Room Modal -->
         <div id="edit_room" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-md" role="document">
                 <div class="modal-content">
@@ -162,54 +161,56 @@
                     </div>
                     <br>
                     <div class="modal-body">
-                        <form action="{{ route('update') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('update/room') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="id" id="id" value="">
+                            <input type="hidden" name="id" id="r_id" value="">
                             <div class="row"> 
-                                <div class="col-sm-6"> 
+                                <div class="col-sm-6">
+                                    <div class="form-group"> 
                                     <label>Room Type</label>
-                        <select class="select form-control" id="roomtype" name="roomtype">
-                      
+                                    <select class="select form-control" id="r_roomtype" name="roomtype">
                                             <option value="public">public</option>
                                             <option value="vip">vip</option>
                                             <option value="vvip">vvip</option>
                                         </select>
                                     </div>
+                                </div>
                                 <div class="col-sm-6"> 
+                                    <div class="form-group">
                                     <label>Room Area</label>
-                                    <select class="select form-control" id="roomarea" name="roomarea">
+                                    <select class="select form-control" id="r_roomarea" name="roomarea">
                                         <option value="single">single</option>
                                         <option value="double">double</option>
                                        
                                     </select>
+                                </div>
                                 </div>
                             </div>
                             <div class="row"> 
                                 <div class="col-sm-6">
                                     <div class="form-group"> 
                                     <label>Room Price</label>
-                                    <input class="form-control" type="text" id="roomprice" name="roomprice" >
+                                    <input class="form-control" type="text" id="r_roomprice" name="roomprice" >
                                 </div>
                                 </div>
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
                                     <label>Room Bed</label>
-                                    <input class="form-control" type="number" id="roombed" name="roombed" >
+                                    <input class="form-control" type="number" id="r_roombed" name="roombed" >
                                 </div>
                                 </div>
                             </div>
-                            <br>
                             <div class="row"> 
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
                                         <label>Room Number</label>
-                                        <input class="form-control" type="text" id="roomno" name="roomno" >
+                                        <input class="form-control" type="number" id="r_rno" name="roomno" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
                                     <label>Location</label>
-                                    <select class="select form-control" name="location" id="location">
+                                    <select class="select form-control" name="location" id="r_location">
                                         <option selected disabled> --Select --</option>
                                         @foreach ($location as $locations )
                                         <option value="{{ $locations->location}}">{{ $locations->location }}</option>
@@ -230,10 +231,12 @@
                                 </div>
                                 </div>
                                 <div class="col-sm-6"> 
+                                    <div class="form-group">
                                     <label>Room Image</label>
                                     <input class="form-control" type="file" id="image" name="images">
                                     <input type="hidden" name="hidden_image" id="r_image" value="">
                                 </div>
+                            </div>
                             </div>
                             <br>
                             <div class="submit-section">
@@ -244,9 +247,9 @@
                 </div>
             </div>
         </div>
-        <!-- /Edit Salary Modal -->
+        <!-- /Edit room Modal -->
 				
-        <!-- Delete User Modal -->
+        <!-- Delete Room Modal -->
         <div class="modal custom-modal fade" id="delete_room" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -274,7 +277,7 @@
                 </div>
             </div>
         </div>
-        <!-- /Delete User Modal -->
+        <!-- /Delete Room Modal -->
     </div>
     <!-- /Page Wrapper -->
     @section('script')
@@ -349,15 +352,23 @@
         $(document).on('click','.roomUpdate',function()
         {
             var _this = $(this).parents('tr');
-            $('#id').val(_this.find('.id').text());
-            $('#roomtype').val(_this.find('.roomtype').text()).change();
-            $('#roomarea').val(_this.find('.roomarea').text()).change();
-            $('#roomprice').val(_this.find('.roomprice').text());
-            $('#roombed').val(_this.find('.roombed').text());
-            $('#roomno').val(_this.find('.roomno')).text();
-            $('#image').val(_this.find('.avatar').data('avatar'));
+            $('#r_id').val(_this.find('.id').text());
+            $('#r_roomprice').val(_this.find('.roomprice').text());
+            $('#r_roombed').val(_this.find('.roombed').text());
+            $('#r_rno').val(_this.find('.roomno').text());
+            $('#r_image').val(_this.find('.avatar').data('avatar'));
             $('#r_status').val(_this.find('.status_s').text()).change();
-            $('#location').val(_this.find('.location').text()).change();
+            $('#r_location').val(_this.find('.location').text());
+
+
+                var roomtype = (_this.find(".roomtype").text());
+                var _option = '<option selected value="' + roomtype+ '">' + _this.find('.roomtype').text() + '</option>'
+                $( _option).appendTo("#r_roomtype");
+
+                var roomarea = (_this.find(".roomarea").text());
+                var _option = '<option selected value="' + roomarea+ '">' + _this.find('.roomarea').text() + '</option>'
+                $( _option).appendTo("#r_roomarea");
+
         });
     </script>
 

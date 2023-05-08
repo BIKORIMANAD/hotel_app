@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\HallController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -24,6 +23,7 @@ use App\Http\Controllers\SalesController;
 use App\Http\Controllers\PersonalInformationController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\HallController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,7 +135,7 @@ Route::controller(RoomController::class)->group(function () {
 
     Route::get('roomManagement', 'index')->middleware('auth')->name('roomManagement');
     Route::post('room/add/save', 'addNewRoomSave')->name('room/add/save');
-    Route::post('update', 'update')->name('update');
+    Route::post('update/room', 'UpdateRoom')->name('update/room');
     Route::post('room/delete', 'delete')->middleware('auth')->name('room/delete');
     Route::get('get-rooms-data', 'getRoomsData')->name('get-rooms-data'); /** get all data room */
     
@@ -155,12 +155,11 @@ Route::post('location/delete', 'deleteRecordLocation')->middleware('auth')->name
 
 // ----------------------------- Start manage halls ------------------------------//
 Route::controller(HallController::class)->group(function () {
-
     Route::get('hallManagement', 'index')->middleware('auth')->name('hallManagement');
     Route::post('hall/add/save', 'addNewHallSave')->name('hall/add/save');
-    Route::post('update', 'update')->name('update');
-    Route::post('hall/delete', 'delete')->middleware('auth')->name('hall/delete');
-    Route::get('get-halls-data', 'getHallData')->name('get-halls-data'); /** get all data room */
+    Route::post('update/hall', 'UpdateHall')->name('update/hall');
+    Route::post('hall/delete', 'DeleteHall')->middleware('auth')->name('hall/delete');
+    Route::get('get-halls-data', 'getHallData')->name('get-halls-data'); /** get all data hall */
     
 });
 // ----------------------------- end manage halls------------------------------//

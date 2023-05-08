@@ -17,7 +17,7 @@ class HallController extends Controller
         {
             $result      = DB::table('halls')->get();
             $location  = DB::table('locations')->get();
-            $status_hall = DB::table('r_statuses')->get();
+            $status_hall = DB::table('hstatuses')->get();
             return view('accountant.hall.hall',compact('result','location','status_hall'));
         } else {
             return redirect()->route('home');
@@ -116,10 +116,10 @@ class HallController extends Controller
                 "no"           => '<span class="id" data-id = '.$record->id.'>'.$start + ($key + 1).'</span>',
                 "name"         => '<span class="name">'.$record->name.'</span>',
                 "numberp"      => '<span class="numberp">'.$record->numberp.'</span>',
-                "hallprice"        => '<span class="hallprice">'.$record->hallprice.'</span>',
+                "hallprice"    => '<span class="hallprice">'.$record->hallprice.'</span>',
                 "status"       => $status,
-                "location"   => '<span class="location">'.$record->location.'</span>',
-                "action"      => 
+                "location"     => '<span class="location">'.$record->location.'</span>',
+                "action"       => 
                 '
                 <td>
                     <div class="dropdown dropdown-action">
@@ -185,55 +185,42 @@ class HallController extends Controller
             return redirect()->back();
         }
     }
-    
+     
     /** update record */
-    public function update(Request $request)
+    public function UpdateHall(Request $request)
     {
         DB::beginTransaction();
         try{
-            $name        = $request->name;
-            $numberp        = $request->numberp;
-            $hallprice     = $request->hallprice;
-            $status    = $request->status;
-            $location  = $request->location;
-
-           
-            $image_name = $request->hidden_image;
-            $image = $request->file('images');
-            if($image_name =='photo_defaults.jpg') {
-                if (empty($image)) {
-                    $image_name = $image_name;
-                } else {
-                    $image_name = rand() . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('/assets/images/'), $image_name);
-                }
+            $imagename = $request->hidden_image;
+            $image  = $request->file('avatar');
+            if($image != '')
+            {
+                unlink('assets/images/'.$imagename);
+                $imagename = time().'.'.$image->getClientOriginalExtension();  
+                $image->move(public_path('assets/images'), $imagename);
             } else {
-                if (!empty($image)) {
-                    unlink('assets/images/'.$image_name);
-                    $image_name = rand() . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('/assets/images/'), $image_name);
-                }
+                $imagename;
             }
             
             $update = [
-
-                'name'       => $name,
-                'numberp'         => $numberp,
-                'hallprice'    => $hallprice,
-                'location'   => $location,
-                'status'       => $status,
-                'image'       => $image_name,
+                 'id'         =>$request->id,
+                'name'       => $request->name,
+                'numberp'         => $request->numberp,
+                'hallprice'    => $request->hallprice,
+                'location'   => $request->location,
+                'status'       => $request->status,
+                'avatar'       => $request->imagename,
             ];
 
            
             Hall::where('id',$request->id)->update($update);
             DB::commit();
-            Toastr::success('Hall updated successfully :)','Success');
-            return redirect()->route('accountant.hall.hall');
+            Toastr::success('Update Record successfully :)','Success');
+            return redirect()->route('hallManagement');
 
         } catch(\Exception $e){
             DB::rollback();
-            Toastr::error('Hall update fail :)','Error');
+            Toastr::error('Update record fail :)','Error');
             return redirect()->back();
         }
     } 
@@ -241,12 +228,13 @@ class HallController extends Controller
    
 
     /** delete record */
-    public function delete(Request $request)
+    public function DeleteHall(Request $request)
     {
         DB::beginTransaction();
         try {
 
-            if ($request->avatar == 'photo_defaults.jpg') { /** remove all information user */
+
+            if ($request->avatar == 'photo_defaults.jpg') { 
                 Hall::destroy($request->id);
                 
             } else {

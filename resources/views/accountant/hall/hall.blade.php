@@ -48,7 +48,7 @@
         </div>
         <!-- /Page Content -->
 
-        <!-- Add User Modal -->
+        <!-- Add Hall Modal -->
         <div id="add_hall" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-sm-6"> 
                                     <label>Hall Image</label>
-                                    <input class="form-control" type="file" id="image" name="image">
+                                    <input class="form-control" type="file" id="" name="avatar">
                                 </div>
                             </div>
 
@@ -121,9 +121,9 @@
                 </div>
             </div>
         </div>
-        <!-- /Add User Modal -->
+        <!-- /Add Hall Modal -->
 				
-        <!-- Edit User Modal -->
+        <!-- Edit Hall Modal -->
         <div id="edit_hall" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-md" role="document">
                 <div class="modal-content">
@@ -135,18 +135,19 @@
                     </div>
                     <br>
                     <div class="modal-body">
-                        <form action="{{ route('update') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('update/hall') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="id" id="id" value="">
+                            <input type="hidden" name="id" id="h_id" value="">
+                            <input type="hidden" name="avatar" id="avatar" value="">
                             <div class="row"> 
                                 <div class="col-sm-6"> 
                                     <label>Hall Name</label>
-                            <input class="form-control" type="text" id="name" name="name" >
+                            <input class="form-control" type="text" id="h_name" name="name" >
                                     </div>
 
                                 <div class="col-sm-6"> 
                                     <label>Number of People</label>
-                            <input class="form-control" type="text" id="numberp" name="numberp" >
+                            <input class="form-control" type="text" id="h_numberp" name="numberp" >
                                 </div>
                             </div>
                             
@@ -155,13 +156,13 @@
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
                                         <label>Hall Price</label>
-                                    <input class="form-control" type="text" id="hallprice" name="hallprice" >
+                                    <input class="form-control" type="text" id="h_hallprice" name="hallprice" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6"> 
                                     <div class="form-group">
                                     <label>Hall Location</label>
-                                    <select class="select form-control" name="location" id="location">
+                                    <select class="select form-control" name="location" id="h_location">
                                         <option selected disabled> --Select --</option>
                                         @foreach ($location as $locations )
                                         <option value="{{ $locations->location}}">{{ $locations->location }}</option>
@@ -196,10 +197,10 @@
                 </div>
             </div>
         </div>
-        <!-- /Edit Salary Modal -->
+        <!-- /Edit hall Modal -->
 				
-        <!-- Delete User Modal -->
-        <div class="modal custom-modal fade" id="delete_hall" role="dialog">
+         <!-- Delete hall Modal -->
+         <div class="modal custom-modal fade" id="delete_hall" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -226,7 +227,7 @@
                 </div>
             </div>
         </div>
-        <!-- /Delete User Modal -->
+        <!-- /Delete hall Modal -->
     </div>
     <!-- /Page Wrapper -->
     @section('script')
@@ -292,13 +293,13 @@
         $(document).on('click','.hallUpdate',function()
         {
             var _this = $(this).parents('tr');
-            $('#id').val(_this.find('.id').text());
-            $('#name').val(_this.find('.name').text());
-            $('#numberp').val(_this.find('.numberp').text());
-            $('#hallprice').val(_this.find('.hallprice').text());
-            $('#image').val(_this.find('.avatar').data('avatar'));
+            $('#h_id').val(_this.find('.id').text());
+            $('#h_name').val(_this.find('.name').text());
+            $('#h_numberp').val(_this.find('.numberp').text());
+            $('#h_hallprice').val(_this.find('.hallprice').text());
+            $('#h_image').val(_this.find('.avatar').data('avatar'));
             $('#h_status').val(_this.find('.status_s').text()).change();
-            $('#location').val(_this.find('.location').text()).change();
+            $('#h_location').val(_this.find('.location').text());
         });
     </script>
 
@@ -307,7 +308,7 @@
         $(document).on('click','.hallDelete',function()
         {
             var _this = $(this).parents('tr');
-            $('.id').val(_this.find('.id').data('id'));
+            $('.id').val(_this.find('.id').text());
             $('#avatar').val(_this.find('.avatar').data('avatar'));
         });
     </script> 
