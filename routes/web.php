@@ -1,29 +1,35 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\UserManagementController;
-use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LockScreen;
-use App\Http\Controllers\PayrollController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\HolidayController;
-use App\Http\Controllers\LeavesController;
-use App\Http\Controllers\ExpenseReportsController;
-use App\Http\Controllers\PerformanceController;
-use App\Http\Controllers\TrainingController;
-use App\Http\Controllers\TrainersController;
-use App\Http\Controllers\TrainingTypeController;
-use App\Http\Controllers\SalesController;
-use App\Http\Controllers\PersonalInformationController;
-use App\Http\Controllers\RoomController;
-use App\Http\Controllers\LocationController;
 use App\Http\Controllers\HallController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\LeavesController;
+use App\Http\Controllers\BarfoodController;
+use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\TrainersController;
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\FoodrestoController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BarbeverageController;
+use App\Http\Controllers\BarmaterialController;
+use App\Http\Controllers\PerformanceController;
+use App\Http\Controllers\TrainingTypeController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\RestobeverageController;
+use App\Http\Controllers\RestomaterialController;
+use App\Http\Controllers\ExpenseReportsController;
+use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\PersonalInformationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -164,6 +170,60 @@ Route::controller(HallController::class)->group(function () {
 });
 // ----------------------------- end manage halls------------------------------//
 
+
+// ----------------------------- Restaurant beverage managent------------------------------//
+Route::controller(RestobeverageController::class)->group(function () {
+    Route::get('beverageManagement', 'index')->middleware('auth')->name('beverageManagement');
+    Route::post('beverage/add/save', 'addNewBeverageSave')->name('beverage/add/save');
+    Route::post('beverage/update', 'BeverageUpdate')->name('beverage/update');
+    Route::post('beverage/delete', 'BeverageDelete')->middleware('auth')->name('beverage/delete');
+    
+});
+
+// --------------------------- Restaurant food managent---------------------------//
+Route::controller(FoodrestoController::class)->group(function () {
+    Route::get('foodManagement', 'index')->middleware('auth')->name('foodManagement');
+    Route::post('form/food/save', 'saveRecord')->middleware('auth')->name('form/food/save');
+    Route::post('form/food/update', 'updateRecord')->middleware('auth')->name('form/food/update'); 
+    Route::post('form/food/delete', 'deletefood')->middleware('auth')->name('form/food/delete');   
+});
+
+// --------------------------- Restaurant material managent ---------------------------//
+Route::controller(RestomaterialController::class)->group(function () {
+    Route::get('RestomaterialManagement', 'index')->middleware('auth')->name('restomaterialManagement');
+    Route::post('resto/material/save', 'AddMaterial')->middleware('auth')->name('resto/material/save');
+    Route::post('resto/material/update', 'UpdateMaterial')->middleware('auth')->name('resto/material/update'); 
+    Route::post('resto/material/delete', 'DeleteMaterial')->middleware('auth')->name('resto/material/delete');   
+});
+
+// ----------------------------- Bar beverage managent------------------------------//
+Route::controller(BarbeverageController::class)->group(function () {
+    Route::get('BeverageManagement', 'index')->middleware('auth')->name('BeverageManagement');
+    Route::post('bar/beverage/save', 'AddBeverage')->name('bar/beverage/save');
+    Route::post('bar/beverage/update', 'UpdateBeverage')->name('bar/beverage/update');
+    Route::post('bar/beverage/delete', 'DeleteBeverage')->middleware('auth')->name('bar/beverage/delete');
+    
+    
+});
+
+
+// --------------------------- Bar food managent ---------------------------//
+Route::controller(BarfoodController::class)->group(function () {
+    Route::get('FoodManagement', 'index')->middleware('auth')->name('FoodManagement');
+    Route::post('bar/food/save', 'AddFood')->middleware('auth')->name('bar/food/save');
+    Route::post('bar/food/update', 'UpdateFood')->middleware('auth')->name('bar/food/update'); 
+    Route::post('bar/food/delete', 'DeleteFood')->middleware('auth')->name('bar/food/delete');   
+});
+
+// --------------------------- Bar material managent ---------------------------//
+Route::controller(BarmaterialController::class)->group(function () {
+    Route::get('barmaterialManagement', 'index')->middleware('auth')->name('barmaterialManagement');
+    Route::post('bar/material/save', 'AddMaterial')->middleware('auth')->name('bar/material/save');
+    Route::post('bar/material/update', 'UpdateMaterial')->middleware('auth')->name('bar/material/update'); 
+    Route::post('bar/material/delete', 'DeleteMaterial')->middleware('auth')->name('bar/material/delete');   
+});
+
+
 // --------------------------------- job ---------------------------------//
 Route::controller(JobController::class)->group(function () {
     Route::get('form/job/list','jobList')->name('form/job/list');
@@ -244,7 +304,8 @@ Route::controller(EmployeeController::class)->group(function () {
 Route::controller(HolidayController::class)->group(function () {
     Route::get('form/holidays/new', 'holiday')->middleware('auth')->name('form/holidays/new');
     Route::post('form/holidays/save', 'saveRecord')->middleware('auth')->name('form/holidays/save');
-    Route::post('form/holidays/update', 'updateRecord')->middleware('auth')->name('form/holidays/update');    
+    Route::post('form/holidays/update', 'updateRecord')->middleware('auth')->name('form/holidays/update'); 
+    Route::post('form/holidays/delete', 'deleteholiday')->middleware('auth')->name('form/holidays/delete');    
 });
 
 // -------------------------- form leaves ----------------------------//

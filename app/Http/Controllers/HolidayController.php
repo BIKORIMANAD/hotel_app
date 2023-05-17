@@ -69,4 +69,19 @@ class HolidayController extends Controller
             return redirect()->back();
         }
     }
+
+     /** delete record foodresto */
+     public function deleteholiday(Request $request) 
+     {
+         try {
+             Holiday::destroy($request->id);
+             Toastr::success('Holiday deleted successfully :)','Success');
+             return redirect()->back();
+         
+         } catch(\Exception $e) {
+             DB::rollback();
+             Toastr::error('Holidaydelete fail :)','Error');
+             return redirect()->back();
+         }
+     }
 }

@@ -35,12 +35,38 @@
                 <li class="menu-title"> <span>Apartments</span> </li>
                 <li class="{{set_active(['roomManagement','location/page','hallManagement'])}} submenu">
                     <a href="#" class="{{ set_active(['roomManagement','location/page','hallManagement']) ? 'noti-dot' : '' }}">
-                        <i class="la la-list"></i> <span> Apartment Controller</span> <span class="menu-arrow"></span>
+                        <i class="la la-home"></i> <span> Apartment Controller</span> <span class="menu-arrow"></span>
                     </a>
                     <ul style="{{ request()->is('/*') ? 'display: block;' : 'display: none;' }}">
                         <li><a class="{{set_active(['roomManagement'])}}" href="{{ route('roomManagement') }}">Manage Room</a></li>
                         <li><a class="{{set_active(['location/page'])}}" href="{{ route('location/page') }}">Manage Location</a></li>
                         <li><a class="{{set_active(['hallManagement'])}}" href="{{ route('hallManagement') }}">Manage Hall</a></li>  
+                    </ul>
+                </li>
+
+                <li class="menu-title"> <span>Restaurant</span> </li>
+                <li class="{{set_active(['beverageManagement','foodManagement','restomaterialManagement'])}} submenu">
+                    <a href="#" class="{{ set_active(['beverageManagement','foodManagement','restomaterialManagement']) ? 'noti-dot' : '' }}">
+                        <i class="la la-bacon"></i> <span>Resto Management</span> <span class="menu-arrow"></span>
+                    </a>
+                    <ul style="{{ request()->is('/*') ? 'display: block;' : 'display: none;' }}">
+                        <li><a class="{{set_active(['beverageManagement'])}}" href="{{ route('beverageManagement') }}">Beverages</a></li>
+                        <li><a class="{{set_active(['foodManagement'])}}" href="{{ route('foodManagement') }}">Foods</a></li>
+                        <li><a class="{{set_active(['restomaterialManagement'])}}" href="{{ route('restomaterialManagement') }}">Materials</a></li>
+                          
+                    </ul>
+                </li>
+
+
+                <li class="menu-title"> <span>Bar</span> </li>
+                <li class="{{set_active(['BeverageManagement','FoodManagement','barmaterialManagement'])}} submenu">
+                    <a href="#" class="{{ set_active(['BeverageManagement','FoodManagement','barmaterialManagement']) ? 'noti-dot' : '' }}">
+                        <i class="la la-wine-bottle"></i> <span>Bar Management</span> <span class="menu-arrow"></span>
+                    </a>
+                    <ul style="{{ request()->is('/*') ? 'display: block;' : 'display: none;' }}">
+                        <li><a class="{{set_active(['BeverageManagement'])}}" href="{{ route('BeverageManagement') }}">Beverages</a></li>
+                        <li><a class="{{set_active(['FoodManagement'])}}" href="{{ route('FoodManagement') }}">Foods</a></li>  
+                        <li><a class="{{set_active(['barmaterialManagement'])}}" href="{{ route('barmaterialManagement') }}">Materials</a></li>
                     </ul>
                 </li>
             @endif
